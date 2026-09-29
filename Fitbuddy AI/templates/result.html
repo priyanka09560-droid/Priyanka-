@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FitBuddy | Your Plan</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #222;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .details {
+            line-height: 1.8;
+        }
+
+        .plan {
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 12px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        a {
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #b00020;
+            padding: 12px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>PERSONALIZED PLAN</h1>
+
+        {% if user %}
+            <h2>Hello, {{ user.username }}!</h2>
+
+            <div class="details">
+                <b>User ID:</b> {{ user.user_id }}<br>
+                <b>Age:</b> {{ user.age }}<br>
+                <b>Weight:</b> {{ user.weight }} kg<br>
+                <b>Goal:</b> {{ user.goal }}<br>
+                <b>Intensity:</b> {{ user.intensity }}
+            </div>
+        {% endif %}
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Original 7-Day Workout Plan</h2>
+
+        <div class="plan">
+            {{ plan }}
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Nutrition / Recovery Tip</h2>
+
+        <p>
+            {{ nutrition_tip }}
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Improve Your Plan</h2>
+
+        <p>
+            Tell FitBuddy what you want to change in your workout plan.
+        </p>
+
+        <form action="/submit-feedback" method="post">
+
+            <input
+                type="hidden"
+                name="user_id"
+                value="{{ user.user_id }}"
+            >
+
+            <textarea
+                name="feedback"
+                placeholder="Example: Make the workout plan lighter and add more rest days."
+                required
+            ></textarea>
+
+            <br>
+
+            <button type="submit">
+                Update Plan with AI
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if feedback %}
+
+    <div class="card">
+
+        <h2>Your Feedback</h2>
+
+        <p>{{ feedback }}</p>
+
+    </div>
+
+    {% endif %}
+
+
+    {% if error %}
+
+    <div class="card">
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <div class="card">
+
+        <a href="/">← Create New Plan</a>
+
+        <a href="/view-all-users">View All Users</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

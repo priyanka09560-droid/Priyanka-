@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FitBuddy - AI Fitness Plan Generator</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 40px;
+        }
+
+        .header p {
+            margin: 8px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            margin-top: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+        }
+
+        input,
+        select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .links a {
+            margin: 0 10px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>FitBuddy</h1>
+            <p>AI Fitness Plan Generator</p>
+            <p>Create a personalized workout plan using Gemini AI.</p>
+        </div>
+
+        {% if error %}
+        <div class="error">
+            <strong>Could not generate the plan.</strong>
+            <br>
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="card">
+
+            <h2>Your Details</h2>
+
+            <form action="/generate-workout" method="post">
+
+                <div class="grid">
+
+                    <label>
+                        Name
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Enter your name"
+                            required
+                            maxlength="100"
+                        >
+                    </label>
+
+                    <label>
+                        User ID
+                        <input
+                            type="text"
+                            name="user_id"
+                            placeholder="Example: FB001"
+                            required
+                            maxlength="50"
+                        >
+                    </label>
+
+                    <label>
+                        Age
+                        <input
+                            type="number"
+                            name="age"
+                            min="13"
+                            max="100"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Weight (kg)
+                        <input
+                            type="number"
+                            name="weight"
+                            min="20"
+                            max="500"
+                            step="0.1"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Fitness Goal
+                        <select name="goal" required>
+                            <option value="">Select goal</option>
+                            <option value="weight loss">Weight Loss</option>
+                            <option value="muscle gain">Muscle Gain</option>
+                            <option value="general wellness">General Wellness</option>
+                            <option value="flexibility">Flexibility</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Workout Intensity
+                        <select name="intensity" required>
+                            <option value="">Select intensity</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </label>
+
+                </div>
+
+                <button type="submit">
+                    Generate Plan
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="links">
+            <a href="/view-all-users">Admin / View All Users</a>
+            <a href="/docs">API Docs</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
